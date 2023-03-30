@@ -3,30 +3,32 @@
 
 
 #preparing crp (Reproducibility Project Cancer Biology) data set 
+# https://osf.io/39s7j
 
-#setwd("~/Desktop/samplesize_for_decisionmaking")
-
-#setwd("C:/Users/collazoa/OneDrive - Charit? - Universit?tsmedizin Berlin/Dokumente/GitHub/Cancer_Reproducibility")
 source("./scripts/data_wrangling/load_packages.R")
-crp_flowchart<-tibble(stages = c("raw data", "included data"), number = NA)
-crp<-read.csv(file = "./scripts/data_wrangling/crp.csv", header = TRUE)
-crp_flowchart[1,2]<-nrow(crp)
+crp<-read.csv(file = "./scripts/data_wrangling/crp.csv", header = TRUE, sep = ",")
+
 crp$Original.sample.size<-as.numeric(crp$Original.sample.size)
 
-#filtering experiments: 
-crp<-crp%>%
+#flowchart and filtering experiments: 
+crp_flowchart<-tibble(stages = c("raw data", "no Cohen's d", "ss > 100", "ss = NA", "included data", "excluded data"), number = NA)
+crp_flowchart[1,2]<-nrow(crp)
+crp_flowchart[2,2] <- nrow(filter(crp, Effect.size.type != "Cohen's d"))
+#crp_flowchart[3,2] <- nrow(filter(crp, Original.sample.size > 100))
+crp_flowchart[4,2] <- sum(is.na(crp$Original.sample.size))
+crp <- crp %>%
+  filter(Original.sample.size > 0)
+
+crp <- crp %>%
   filter(Effect.size.type == "Cohen's d")
-crp<-crp%>%
-  filter(Original.sample.size < 100)
 
-sum(is.na(crp$Original.sample.size)) == 0
+# crp <- crp %>%                          # all studies with n > 100 are excluded because of Effect.size.type != Cohen's d
+#  filter(Original.sample.size < 100) 
 
-crp_flowchart[2,2]<-nrow(crp)
-crp_flowchart%>%kbl(caption = "CRP Flowchart") %>%kable_classic(full_width = F)
-exclusion_crp<-tibble(exclusion_criteria = c("Effect.size.type == Cohen's d", 
-                                         "Original.sample.size< 100",
-                                         "Original.sample.size != 0"))
-exclusion_crp%>%kbl(caption = "exclusion criteria CRP")%>%kable_classic(full_width = F)
+crp_flowchart[5,2] <- nrow(crp)
+crp_flowchart[6,2] <- crp_flowchart[1,2] - crp_flowchart[5,2]
+
+
 
 
 #selecting relevant columns 
@@ -56,3 +58,13 @@ for (i in 1:nrow(crp)) {
 crp$project<-"CRP"
 
 #orig_se is on the z-scale 
+
+
+# exclusion criteria 
+
+# crp_flowchart%>%kbl(caption = "CRP Flowchart") %>%kable_classic(full_width = F)
+# exclusion_crp<-tibble(exclusion_criteria = c("Effect.size.type == Cohen's d", 
+#                                              "Original.sample.size< 100",
+#                                              "Original.sample.size != 0"))
+# exclusion_crp%>%kbl(caption = "exclusion criteria CRP")%>%kable_classic(full_width = F)
+

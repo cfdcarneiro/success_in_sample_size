@@ -6,19 +6,24 @@
 
 #setwd("C:/Users/collazoa/OneDrive - Charit? - Universit?tsmedizin Berlin/Dokumente/GitHub/BRI")
 source("./scripts/data_wrangling/load_packages.R")
-bri_flowchart<-tibble(stages = c("raw data", "included data"), number = NA)
-bri<-read.csv(file = "./scripts/data_wrangling/bri.csv", sep = ";", header = TRUE)
-bri_flowchart[1,2]<-nrow(bri)
+bri_flowchart <- tibble(stages = c("raw data", "ss = NA", "no Cohen's d calculation", "included data", "excluded data"), number = NA)
+bri <- read.csv(file = "./scripts/data_wrangling/bri.csv", sep = ";", header = TRUE)
+bri_flowchart[1,2] <- nrow(bri)
 
 #formating the number of rows 
-bri<-bri[,1:23]
+bri <- bri[,1:23]
 
 # filtering out missing values 
-bri<-bri%>%filter(Reported.Control.Sample.Size != "NI", 
-                  Reported.Treated.Sample.Size != "NI", 
-                  Delta != "NI", 
-                  Pooled.SD !="NI")
+bri <- bri %>% 
+  filter(Reported.Control.Sample.Size != "NI", 
+                  Reported.Treated.Sample.Size != "NI") 
+bri_flowchart[2,2] <- nrow(bri)
 
+
+bri <- bri %>% 
+  filter(Delta != "NI", 
+          Pooled.SD !="NI")
+bri_flowchart[3,2] <- nrow(bri)
 
 # selecting variable columns for further analysis
 num<-c(7,8, 10:13, 15:20, 22, 23)
