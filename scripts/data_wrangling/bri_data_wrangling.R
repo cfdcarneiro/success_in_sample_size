@@ -6,51 +6,32 @@
 
 #setwd("C:/Users/collazoa/OneDrive - Charit? - Universit?tsmedizin Berlin/Dokumente/GitHub/BRI")
 source("./scripts/data_wrangling/load_packages.R")
-bri_flowchart <- tibble(stages = c("raw data", "ss = NA", "no Cohen's d calculation", "included data", "excluded data"), number = NA)
 bri <- read.csv(file = "./scripts/data_wrangling/bri.csv", sep = ";", header = TRUE)
-bri_flowchart[1,2] <- nrow(bri)
 
 #formating the number of rows 
 bri <- bri[,1:23]
+
+
 
 # filtering out missing values 
 bri <- bri %>% 
   filter(Reported.Control.Sample.Size != "NI", 
                   Reported.Treated.Sample.Size != "NI") 
-bri_flowchart[2,2] <- nrow(bri)
 
 
-bri <- bri %>% 
-  filter(Delta != "NI", 
-          Pooled.SD !="NI")
-bri_flowchart[3,2] <- nrow(bri)
 
 # selecting variable columns for further analysis
 num<-c(7,8, 10:13, 15:20, 22, 23)
 # selecting rows without typos or implausible values 
-rown<-c(1:28, 30:38,40)
-bri<-bri[rown,num] #typo in row 29? row 39: Control.SD == 0.00 
+#rown<-c(1:28, 30:38,40)
+bri<-bri[,num] #typo in row 29? row 39: Control.SD == 0.00 
 
-bri_flowchart[2,2]<-nrow(bri)
-
-bri_flowchart%>%
-  kbl(caption = "BRI Flowchart") %>%
-  kable_classic(full_width = F)
-
-exclusion_bri<-tibble(exclusion_criteria = c("typo, row 29/study 6, PCR 147",
-                                             "Control.SD = 0.00, row 39/study 18, PCR75"))
-
-
-exclusion_bri%>%
-  kbl(caption = "exclusion criteria BRI")%>%
-  kable_classic(full_width = F)
 
 
 #transforming all values to numeric 
 sapply(1:ncol(bri), function(i) {
   bri[, i] <<- as.numeric(bri[, i])
 })
-
 
 
 bri$orig_z <- numeric(length = nrow(bri))
@@ -62,16 +43,18 @@ bri$orig_d<-numeric(length = nrow(bri))
 for (i in 1:nrow(bri)) {
         re<-esc_mean_sd(
             grp2m = bri$Control.Mean[i],
-            grp2sd = bri$Control.SD[i],
-            grp2n = bri$Reported.Control.Sample.Size[i],
+            grp2n = bri$Assumed.Control.Sample.Size[i],
+            grp2sd =  bri$Control.SD[i],
             grp1m = bri$Treated.Mean[i],
-            grp1sd = bri$Treated.SD[i], 
-            grp1n = bri$Reported.Treated.Sample.Size[i],
+            grp1n = bri$Assumed.Treated.Sample.Size[i],
+            grp1sd = bri$Treated.SD[i],
             es.type = "d")
         bri$orig_d[i]<-re$es
         bri$orig_ci_high[i]<-re$ci.hi
         bri$orig_ci_low[i]<-re$ci.lo
 }     
+
+
 
 vec_neg <- which(bri$orig_d < 0)
 
@@ -121,6 +104,20 @@ for (i in 1:nrow(bri)) {
 bri$orig_ss <- 
   bri$Assumed.Control.Sample.Size + bri$Assumed.Treated.Sample.Size
 
+bri$rep_ss <-
+  bri$Sample.Size.for.Replication * 2 
+
 
 bri$project<-"BRI"
+
+
+#############################
+# generating dataset for descriptive analysis 
+
+bri_d <- bri
+
+write.csv(bri_d, "./scripts/data_wrangling/bri_d.R")
+
+#############################################
+
 
