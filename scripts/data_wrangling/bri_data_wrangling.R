@@ -22,9 +22,7 @@ bri <- bri %>%
 
 # selecting variable columns for further analysis
 num<-c(7,8, 10:13, 15:20, 22, 23)
-# selecting rows without typos or implausible values 
-#rown<-c(1:28, 30:38,40)
-bri<-bri[,num] #typo in row 29? row 39: Control.SD == 0.00 
+bri<-bri[,num] 
 
 
 
@@ -34,10 +32,11 @@ sapply(1:ncol(bri), function(i) {
 })
 
 
-bri$orig_z <- numeric(length = nrow(bri))
+bri$orig_zo <- numeric(length = nrow(bri))
 bri$orig_ci_low<-numeric(length = nrow(bri))
 bri$orig_ci_high<-numeric(length = nrow(bri))
 bri$orig_d<-numeric(length = nrow(bri))
+bri$orig_p_2sided <- numeric(length = nrow(bri))
 
 
 for (i in 1:nrow(bri)) {
@@ -52,6 +51,8 @@ for (i in 1:nrow(bri)) {
         bri$orig_d[i]<-re$es
         bri$orig_ci_high[i]<-re$ci.hi
         bri$orig_ci_low[i]<-re$ci.lo
+        bri$zo[i] <- re$es/re$se
+        bri$orig_p_2sided[i] <- z2p(bri$zo[i], alternative = "two.sided") # original two-sided p-value
 }     
 
 
@@ -79,27 +80,31 @@ for (i in 1:length(bri$orig_ci_low[vec_neg])) {
 bri$orig_ci_high2 <- NULL
 bri$orig_ci_low2 <- NULL
 
+# 
+# sum(bri$orig_ci_low < 0)
+# sum(bri$orig_p_2sided < 0.05)
 
-bri$orig_ci_low_z<-numeric(length = nrow(bri))
-bri$orig_ci_high_z<-numeric(length = nrow(bri))
-bri$orig_se_z<-numeric(length = nrow(bri))
-
-for (i in 1:nrow(bri)) {
-  bri$orig_z[i] <- FisherZ(d_to_r(bri$orig_d[i]))
-  bri$orig_ci_low_z[i]<-FisherZ(rho = d_to_r(bri$orig_ci_low[i])) 
-  bri$orig_ci_high_z[i]<-FisherZ(rho = d_to_r(bri$orig_ci_high[i]))
-  bri$orig_se_z[i]<-ci2se(lower = bri$orig_ci_low_z[i], upper = bri$orig_ci_high_z[i])
-}
-
-
-
-bri$orig_p_2sided<-numeric(length = nrow(bri))
-
-for (i in 1:nrow(bri)) {
-  bri$orig_p_2sided[i]<-ci2p(lower = bri$orig_ci_low_z[i], 
-                             upper = bri$orig_ci_high_z[i],
-                             alternative = "two.sided")
-}
+# 
+# bri$orig_ci_low_z<-numeric(length = nrow(bri))
+# bri$orig_ci_high_z<-numeric(length = nrow(bri))
+# bri$orig_se_z<-numeric(length = nrow(bri))
+# 
+# for (i in 1:nrow(bri)) {
+#   bri$orig_z[i] <- FisherZ(d_to_r(bri$orig_d[i]))
+#   bri$orig_ci_low_z[i]<-FisherZ(rho = d_to_r(bri$orig_ci_low[i])) 
+#   bri$orig_ci_high_z[i]<-FisherZ(rho = d_to_r(bri$orig_ci_high[i]))
+#   bri$orig_se_z[i]<-ci2se(lower = bri$orig_ci_low_z[i], upper = bri$orig_ci_high_z[i])
+# }
+# 
+# 
+# 
+# bri$orig_p_2sided<-numeric(length = nrow(bri))
+# 
+# for (i in 1:nrow(bri)) {
+#   bri$orig_p_2sided[i]<-ci2p(lower = bri$orig_ci_low_z[i], 
+#                              upper = bri$orig_ci_high_z[i],
+#                              alternative = "two.sided")
+# }
 
 bri$orig_ss <- 
   bri$Assumed.Control.Sample.Size + bri$Assumed.Treated.Sample.Size
@@ -108,11 +113,18 @@ bri$rep_ss <-
   bri$Sample.Size.for.Replication * 2 
 
 
-bri$project<-"BRI"
+bri$project <- "BRI"
 
+bri$effect_size_type <- "Cohen's d"
+
+
+sel <- colnames(bri) %in% c("orig_ss", "rep_ss", "orig_p_2sided", "effect_size_type", "orig_d", 
+                     "orig_ci_low", "orig_ci_high", "zo", "project")
+
+bri <- bri[,sel]
 
 #############################
-# generating dataset for descriptive analysis 
+# generating data set for descriptive analysis 
 
 bri_d <- bri
 
