@@ -20,13 +20,13 @@ crp <- crp[vec_not_NA,]
 #selecting relevant columns 
 
 sel <- colnames(crp) %in% c("Original.sample.size","Original.p.value","Original.standard.error",
-                            "Original.effect.size",
+                            "Original.effect.size", "Replication.effect.size",
                             "Original.lower.CI","Original.upper.CI", 
-                            "Replication.sample.size", "Effect.size.type") 
+                            "Replication.sample.size", "Effect.size.type", "Replication.p.value") 
 crp <- crp[,sel]
 
 #assigning standardized names to the tibble
-names<-c("orig_ss", "rep_ss", "orig_p_2sided", "effect_size_type", "orig_d", "orig_se", "orig_ci_low", "orig_ci_high")
+names<-c("orig_ss", "rep_ss", "orig_p_2sided", "rep_p_2sided", "effect_size_type", "orig_d", "orig_se", "orig_ci_low", "orig_ci_high", "rep_d")
 colnames(crp)<-names
 
 
