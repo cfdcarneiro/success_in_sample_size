@@ -4,10 +4,11 @@
 #     loading datasets from simulation 
 #
 ###########################################
+source("./scripts/data_wrangling/merge_data_replication_projects.R")
 
 
 #load("../data/df_combined.RData")
-setwd("C:/Users/collazoa/OneDrive - Charité - Universitätsmedizin Berlin/Dokumente/GitHub/success_in_sample_size/datasets")
+setwd("./datasets")
 
 temp = list.files(getwd(), all.files = T)
 temp <- temp[-c(1,2)]
@@ -106,3 +107,105 @@ df_s_error$sample_size_approach <- names_approaches
 res_summary <- rbind(df_m_error, df_null, df_s_error)
 
 save(res_summary, file = "./res_summary.RData")
+
+
+
+
+#############################
+#
+#
+#   Dataset preparation 
+#   for visualization 
+#
+#############################
+
+
+t4 <- 
+  res_summary %>%
+  filter(sample_size_approach %in% c("a_80pct", "b_1", "c", "d"), 
+         scenario == "m_error") %>%
+  group_by(sample_size_approach) %>%
+  mutate(sum_rep_ss = sum(rep_sample_size, na.rm = T))
+
+
+t5 <- 
+  res_summary %>%
+  filter(sample_size_approach %in% c("a_80pct", "b_1", "c", "d"), 
+         scenario == "s_error") %>%
+  group_by(sample_size_approach) %>%
+  mutate(sum_rep_ss = sum(rep_sample_size, na.rm = T))
+
+
+ci_range <- df_combined$orig_ci_high - df_combined$orig_ci_low
+
+df_se  <- ci2se(lower = df_combined$orig_ci_low, 
+                upper = df_combined$orig_ci_high, 
+                conf.level =0.95)
+t2 <-
+  res_summary%>%
+  filter(conducted == "yes") %>%
+  group_by(sample_size_approach, scenario)%>%
+  dplyr::summarize(mean_rep_ss = round(mean(rep_sample_size, na.rm = TRUE)),
+                   mean_pct_success = round(mean(pct_success), 2),
+                   sum_rep_ss = sum(rep_sample_size))
+t2
+
+
+# extracting orig_d from dataset 
+
+vec_orig_d <- 
+  unlist(
+    as.vector(
+      res_summary %>%
+        filter(scenario == "m_error", 
+               sample_size_approach == "a_80pct") %>%
+        select(orig_d)
+    )
+  )
+
+# creating breaks for the quartile bins of orig_d 
+vec_breaks <- 
+  c(min(vec_orig_d),
+    as.numeric(quantile(vec_orig_d, prob = c(.25, .5, .75))), 
+    round(max(vec_orig_d)))
+
+# assigning bins to orig_d 
+vec_orig_d_bin <- findInterval(vec_orig_d, vec_breaks)
+
+# adding orig_d_bin to the res_summary dataset 
+d3 <- 
+  res_summary %>%
+  mutate(orig_d_bin = rep(vec_orig_d_bin, 18))
+
+# filter d3 for conducted experiments 
+d3f <- 
+  d3 %>%
+  filter(conducted == "yes")
+
+
+rep_success_orig_d_bins <- 
+  d3f %>%
+  group_by(sample_size_approach, scenario, orig_d_bin) %>%
+  dplyr::summarize(mean_success = round(mean(pct_success),1))
+
+
+
+sum_orig_ss <- sum(df_combined$orig_ss)
+
+per_orig_ss <- round(sum(df_combined$orig_ss)/nrow(df_combined))
+
+median_orig_ss <- median(df_combined$orig_ss)
+
+df_fig6 <- 
+  res_summary %>%
+  filter(sample_size_approach %in% c("a_80pct", "b_1", "c", "d"), 
+         scenario == "m_error") %>%
+  group_by(sample_size_approach) %>%
+  dplyr::summarize(
+    n_conducted = sum(conducted == "yes"),
+    sum_rep_ss = sum(rep_sample_size, na.rm = T), 
+    ss_per_experiment = round(sum_rep_ss/n_conducted), 
+    median_rep_ss = median(rep_sample_size, na.rm = T)) 
+
+df_fig6
+
