@@ -5,7 +5,8 @@
 #################################
 
 
-setwd("..")
+setwd("./success_in_sample_size")
+
 source("./scripts/data_wrangling/load_packages.R")
 source("./scripts/analysis_plotting/prepare_data_analysis.R")
 
@@ -652,6 +653,37 @@ example <-
   res_summary %>% 
   filter(orig_d == 2.297534) %>%
   filter(scenario == "m_error")
+
+#############################
+#
+# SESOI
+#
+#############################
+
+df_b <- 
+  res_summary %>%
+  filter(sample_size_approach == "b_1", 
+         scenario == "m_error") %>%
+  mutate(m_error_d = orig_d/2, 
+         sesoi1 = ifelse(m_error_d >= 1, TRUE, FALSE))
+
+df_b %>%
+  group_by(sesoi1) %>%
+  dplyr::summarize(success_sesoi1 = median(pct_success))
+
+
+fig_s3 <- 
+  ggplot(df_b) + 
+  geom_boxplot(aes(x = sesoi1, y = pct_success, fill = sesoi1))+ 
+  scale_x_discrete(labels = c("true effect size < SESOI", 
+                             "true effect size > SESOI"))+
+  labs(y = "replication success probability", 
+       x = "")+
+  scale_fill_manual(values = c(cols[7], cols[5]))+
+  letter + 
+  theme(legend.position = "none")
+plot(fig_s3)
+
 ################################
 #
 #
