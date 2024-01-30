@@ -2,9 +2,8 @@
 # Brasilian reproducibility initiative
 ######################################
 
-#setwd("~/Desktop/samplesize_for_decisionmaking")
 
-#setwd("C:/Users/collazoa/OneDrive - Charit? - Universit?tsmedizin Berlin/Dokumente/GitHub/BRI")
+#setwd("./success_in_sample_size")
 source("./scripts/data_wrangling/load_packages.R")
 bri <- read.csv(file = "./scripts/data_wrangling/bri.csv", sep = ";", header = TRUE)
 
@@ -32,7 +31,7 @@ sapply(1:ncol(bri), function(i) {
 })
 
 
-bri$orig_zo <- numeric(length = nrow(bri))
+bri$zo <- numeric(length = nrow(bri))
 bri$orig_ci_low<-numeric(length = nrow(bri))
 bri$orig_ci_high<-numeric(length = nrow(bri))
 bri$orig_d<-numeric(length = nrow(bri))
@@ -51,7 +50,7 @@ for (i in 1:nrow(bri)) {
         bri$orig_d[i]<-re$es
         bri$orig_ci_high[i]<-re$ci.hi
         bri$orig_ci_low[i]<-re$ci.lo
-        bri$zo[i] <- re$es/re$se
+        bri$zo[i] <- abs(re$es/re$se)
         bri$orig_p_2sided[i] <- z2p(bri$zo[i], alternative = "two.sided") # original two-sided p-value
 }     
 
@@ -80,31 +79,6 @@ for (i in 1:length(bri$orig_ci_low[vec_neg])) {
 bri$orig_ci_high2 <- NULL
 bri$orig_ci_low2 <- NULL
 
-# 
-# sum(bri$orig_ci_low < 0)
-# sum(bri$orig_p_2sided < 0.05)
-
-# 
-# bri$orig_ci_low_z<-numeric(length = nrow(bri))
-# bri$orig_ci_high_z<-numeric(length = nrow(bri))
-# bri$orig_se_z<-numeric(length = nrow(bri))
-# 
-# for (i in 1:nrow(bri)) {
-#   bri$orig_z[i] <- FisherZ(d_to_r(bri$orig_d[i]))
-#   bri$orig_ci_low_z[i]<-FisherZ(rho = d_to_r(bri$orig_ci_low[i])) 
-#   bri$orig_ci_high_z[i]<-FisherZ(rho = d_to_r(bri$orig_ci_high[i]))
-#   bri$orig_se_z[i]<-ci2se(lower = bri$orig_ci_low_z[i], upper = bri$orig_ci_high_z[i])
-# }
-# 
-# 
-# 
-# bri$orig_p_2sided<-numeric(length = nrow(bri))
-# 
-# for (i in 1:nrow(bri)) {
-#   bri$orig_p_2sided[i]<-ci2p(lower = bri$orig_ci_low_z[i], 
-#                              upper = bri$orig_ci_high_z[i],
-#                              alternative = "two.sided")
-# }
 
 bri$orig_ss <- 
   bri$Assumed.Control.Sample.Size + bri$Assumed.Treated.Sample.Size
