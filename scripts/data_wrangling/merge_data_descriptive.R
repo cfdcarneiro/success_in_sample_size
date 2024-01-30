@@ -1,7 +1,9 @@
 # Data wranging for Descriptive analysis and visualization
 
 source("./scripts/data_wrangling/load_packages.R")
-
+source("./scripts/data_wrangling/bri_data_wrangling.R")
+source("./scripts/data_wrangling/crp_data_wrangling.R")
+source("./scripts/data_wrangling/cps_data_wrangling.R")
 
 #selecting relevant columns 
 ##################################################
@@ -40,7 +42,6 @@ cps_des<-cps_d[,vec_col]
 df_descriptive <- rbind(cps_des, crp_des, bri_des) 
 
 write.csv(df_descriptive, "./scripts/data_wrangling/df_descriptive.R")
-
 
 
 
