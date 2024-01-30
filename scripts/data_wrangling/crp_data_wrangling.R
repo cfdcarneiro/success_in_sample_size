@@ -5,6 +5,9 @@
 # preparing crp (Reproducibility Project Cancer Biology) data set 
 # available under: https://osf.io/39s7j
 
+#setwd("./success_in_sample_size")
+source("./scripts/data_wrangling/load_packages.R")
+
 crp<-read.csv(file = "./scripts/data_wrangling/crp.csv", header = TRUE, sep = ",")
 
 crp$Original.sample.size<-as.numeric(crp$Original.sample.size)
