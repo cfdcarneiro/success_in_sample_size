@@ -106,7 +106,7 @@ df_d_conducted %>%
 set.seed(824565)
 
 # number of experiments we run for each true underlying effect size
-n_exp <- 3
+n_exp <- 1000
 
 study_id_vector <- which(df_combined$conducted == "yes")
 
@@ -194,7 +194,7 @@ save(res_summary_d_m_error, file = "./data/res_summary_d_m_error.RData")
 set.seed(824565)
 
 # number of experiments we run for each true underlying effect size
-n_exp <- 2
+n_exp <- 1000
 
 study_id_vector <- which(df_combined$conducted == "yes")
 
@@ -280,7 +280,7 @@ save(res_summary_d_null, file = "./data/res_summary_d_null.RData")
 set.seed(824565)
 
 # number of experiments we run for each true underlying effect size
-n_exp <- 2 
+n_exp <- 1000
 
 study_id_vector <- which(df_combined$conducted == "yes")
 
