@@ -16,14 +16,16 @@ source("./scripts/data_wrangling/load_packages.R")
 # Replication study powered for the effect size obtained 
 # in the original study at 80% and 95% respectively
 
-source("./scripts/simulation/sim_approach_a.R")
+source("./scripts/simulation/sim_approach_a_80.R")
+source("./scripts/simulation/sim_approach_a_95.R")
 
 # Approach B:
 # Replication study powered at 50% for the smallest effect size of interest (SESOI)
 # SESOI 1 = 0.5
 # SESOI 2 = 1.0
 
-source("./scripts/simulation/sim_approach_b.R")
+source("./scripts/simulation/sim_approach_b_0.5.R")
+source("./scripts/simulation/sim_approach_b_1.R")
 
 # Approach C:
 # Replication study powered at 80% for the lower 80% confidence bound 
@@ -38,8 +40,6 @@ source("./scripts/simulation/sim_approach_c.R")
 source("./scripts/simulation/sim_approach_d.R")
 
 
-# combining data sets and plotting results
 
-source("./scripts/analysis_plotting/plots.R") 
 
 
