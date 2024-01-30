@@ -135,33 +135,3 @@ fig4_ab <-
 fig4_ab
 
 
-##################################
-#
-#
-#
-# Supplement 
-#
-#
-##################################
-
-
-table_S1<- rbind(t1_des[1:4], t2_des %>% mutate(project ="across") %>% select(project, 1:3))
-
-table_S1<-mutate(table_S1, median_d = round(median_d, 1), 
-                 sample_size_calculation_approach = c("original effect estimate \n95% power", 
-                                                      "anticipated effect size shrinkage", 
-                                                      "original effect estimate 80% power", 
-                                                      ""))
-
-kable(table_S1, col.names = c("project", 
-                              "median replication \nsample size", 
-                              "median original\nsample size", 
-                              "median SMD", 
-                              "sample size approach"))%>%
-  kable_styling(bootstrap_options = c("striped", "bordered"), full_width = F)
-
-
-
-
-
-
