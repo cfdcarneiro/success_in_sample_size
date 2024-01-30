@@ -92,8 +92,9 @@ sample_size_d <-
                                        alternative = "one.sided", designPrior = "conditional", 
                                        shrinkage = shrinkage)
     
-    return(bb * data$orig_ss)
+    return(ceiling(bb * data$orig_ss/2) * 2)
   }
+
 
 
 
@@ -136,7 +137,7 @@ get_summary_study_rep <- function(study_data) {
   study_summary <-
     study_data %>%
     group_by(study_id, intervention) %>%
-    summarize(mean_group = mean(values),
+    dplyr::summarize(mean_group = mean(values),
               sd_group = sd(values)) %>%
     mutate(p_value = round(t$p.value, 3))
   
@@ -147,13 +148,12 @@ get_summary_study_rep <- function(study_data) {
   study_summary <-
     study_summary %>%
     group_by(study_id, p_value) %>%
-    summarize(effect = mean(effect))
+    dplyr::summarize(effect = mean(effect))
   
 }
 
-
 get_summary_study_rep_pSceptical <- 
-
+  
   function(study_data, alpha_s = 0.05) {
     
     re<-esc_mean_sd(
@@ -168,25 +168,18 @@ get_summary_study_rep_pSceptical <-
     study_summary <-
       study_data %>%
       group_by(study_id, intervention) %>%
-      summarize(mean_group = mean(values),
-                sd_group = sd(values)) %>%
+      dplyr::summarize(mean_group = mean(values),
+                       sd_group = sd(values)) %>%
       mutate(rep_d = re$es,
              ci_low = re$ci.lo,
              ci_high = re$ci.hi,
              zr = re$es/re$se,
              rep_p_value = z2p(zr, alternative = "one.sided"))
-             # rep_z =  FisherZ(d_to_r(rep_d)),
-             # rep_ci_low_z = FisherZ(rho = d_to_r(ci_low)), 
-             # rep_ci_high_z = FisherZ(rho = d_to_r(ci_high)),
-             # rep_se_z = ci2se(lower = rep_ci_low_z, upper = rep_ci_high_z), 
-             # rep_p_value = ci2p(lower = rep_ci_low_z, upper = rep_ci_high_z, alternative = "greater"), 
-             # zr = rep_z/rep_se_z)
     
     study_summary <- 
       study_summary %>%
       select(study_id, effect = rep_d, 
-             ci_low, ci_high, p_value = rep_p_value, 
-             rep_z, rep_se_z, zr)%>%
+             ci_low, ci_high, p_value = rep_p_value, zr)%>%
       mutate(zo = study_data$zo[1], 
              orig_ss = study_data$orig_ss[1], 
              rep_ss = study_data$rep_ss[1])
@@ -204,7 +197,4 @@ get_summary_study_rep_pSceptical <-
       mutate(pScep = pScep,
              success = ifelse(pScep < alpha_s, TRUE, FALSE))
   }
-
-  
-
 
