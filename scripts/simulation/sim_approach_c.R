@@ -107,7 +107,7 @@ decision1_c
 set.seed(84335)
 
 # number of experiments we run for each true underlying effect size
-n_exp <- 3
+n_exp <- 1000
 
 study_id_vector <- which(df_combined$conducted == "yes")
 

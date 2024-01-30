@@ -95,7 +95,7 @@ decision1_a_80
 set.seed(84335)
 
 # number of experiments we run for each true underlying effect size
-n_exp <- 1
+n_exp <- 1000
 
 # first use replication sample size with 80% power
 
@@ -184,7 +184,7 @@ save(res_summary_a_80_m_error, file = "./datasets/res_summary_a_80_m_error.RData
 set.seed(84335)
 
 # number of experiments we run for each true underlying effect size
-n_exp <- 10
+n_exp <- 1000
 
 # first use replication sample size with 80% power
 
@@ -273,7 +273,7 @@ save(res_summary_a_80_null, file = "./datasets/res_summary_a_80_null.RData")
 set.seed(84335)
 
 # number of experiments we run for each true underlying effect size
-n_exp <- 10
+n_exp <- 1000
 
 # first use replication sample size with 80% power
 

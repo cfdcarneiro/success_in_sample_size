@@ -89,7 +89,7 @@ decision1_b_1
 set.seed(84335)
 
 # number of experiments we run for each true underlying effect size
-n_exp <- 2
+n_exp <- 1000
 
 # first use replication sample size with 95% power
 
@@ -166,7 +166,7 @@ save(res_summary_b_1, file = "./datasets/res_summary_b_1_m_error.RData")
 
 set.seed(84335)
 
-n_exp <- 3
+n_exp <- 1000
 
 # first use replication sample size with SESOI = 1
 list_rep_data <- 
@@ -244,7 +244,7 @@ save(res_summary_b_1_null, file = "./datasets/res_summary_b_1_null.RData")
 
 set.seed(84335)
 
-n_exp <- 2
+n_exp <- 1000
 
 # first use replication sample size with SESOI = 1
 list_rep_data <- 

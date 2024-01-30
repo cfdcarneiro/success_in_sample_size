@@ -83,7 +83,7 @@ decision1_b_0.5
 set.seed(84335)
 
 # number of experiments we run for each true underlying effect size
-n_exp <- 2
+n_exp <- 1000
 
 # first use replication sample size with 95% power
 
