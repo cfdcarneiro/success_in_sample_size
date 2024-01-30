@@ -33,7 +33,7 @@ crp$project<-"CRP"
 # generating dataset for descriptive analysis 
 crp_d <- crp
 
-#write.csv(crp_d, "./scripts/data_wrangling/crp_d.R")
+write.csv(crp_d, "./scripts/data_wrangling/crp_d.R")
 #############################################
 
 
