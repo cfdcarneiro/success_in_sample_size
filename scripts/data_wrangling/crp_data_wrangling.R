@@ -2,8 +2,8 @@
 #########################################
 
 
-#preparing crp (Reproducibility Project Cancer Biology) data set 
-# https://osf.io/39s7j
+# preparing crp (Reproducibility Project Cancer Biology) data set 
+# available under: https://osf.io/39s7j
 
 crp<-read.csv(file = "./scripts/data_wrangling/crp.csv", header = TRUE, sep = ",")
 
@@ -28,7 +28,7 @@ crp <- crp[,sel]
 names<-c("orig_ss", "rep_ss", "orig_p_2sided", "rep_p_2sided", "effect_size_type", "orig_d", "orig_ci_low", "orig_ci_high", "rep_d")
 colnames(crp)<-names
 
-
+crp$project<-"CRP"
 #############################################
 # generating dataset for descriptive analysis 
 crp_d <- crp
@@ -41,7 +41,6 @@ crp <- crp %>%
   filter(effect_size_type == "Cohen's d" | effect_size_type == "Glass' delta") %>%
   filter(!is.na(orig_d) == TRUE)
 
-crp$project<-"CRP"
 
 for (i in 1:nrow(crp)) {
   crp$orig_se[i] <-
