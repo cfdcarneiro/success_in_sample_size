@@ -1,12 +1,12 @@
-experiment_id;study;orig_ss;rep_ss;orig_d ;orig_ci_low;orig_ci_high;effect_size_type
-experiment_01;AHEAD;12;118;2,0272;0,44;3,61;Cohen's d
-experiment_02;IVOLDAMT;26;21;1,7259;0,77;2,67;Cohen's d 
-experiment_03;NRG1_PRT;16;210;2,662;1,189089;4,134311;Cohen's d 
-experiment_04;TPHIPAH;15;18;1,4581;0,07179143;2,844409;Cohen's d 
-experiment_05;PROOF;16;52;1,802892;0,4115101;3,19429;Cohen's d 
-experiment_06;SOXALS;73;98;NA;NA;NA;Hazard Rates 
-experiment_07;EPICYCLE_5;14;40;NA;NA;NA;Hazard Ratio
-experiment_08;EPICYCLE_4;14;84;NA;NA;NA;NA
-experiment_09;CONTRACT;10;18;NA;NA;NA;NA
-experiment_10;PINPRICS;12;30;NA;NA;NA;NA
-experiment_11;RSV_PROTECT;10;24;NA;NA;NA;NA
+experiment_id;orig_ss;rep_ss;orig_d ;orig_ci_low;orig_ci_high;effect_size_type;study
+experiment_01;12;118;2,0272;0,44;3,61;Cohen's d;AHEAD
+experiment_02;26;21;1,7259;0,77;2,67;Cohen's d;IVOLDAMT
+experiment_03;16;210;2,662;1,189089;4,134311;Cohen's d;NRG1_PRT
+experiment_04;15;18;1,4581;0,07179143;2,844409;Cohen's d;TPHIPAH
+experiment_05;16;52;1,802892;0,4115101;3,19429;Cohen's d;PROOF
+experiment_06;73;98;NA;NA;NA;Hazard Rates ;SOXAL
+experiment_07;14;40;NA;NA;NA;Hazard Ratio;EPICYCLE_5
+experiment_08;14;84;NA;NA;NA;NA;PROOF
+experiment_09;10;18;NA;NA;NA;NA;CONTRACT
+experiment_10;12;30;3.3;1.5;5.1;Cohen's d;PINPRICS
+experiment_11;10;24;NA;NA;NA;NA;RSV_PROTECT
