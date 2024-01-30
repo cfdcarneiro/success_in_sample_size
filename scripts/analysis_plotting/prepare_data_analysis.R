@@ -196,7 +196,9 @@ per_orig_ss <- round(sum(df_combined$orig_ss)/nrow(df_combined))
 
 median_orig_ss <- median(df_combined$orig_ss)
 
-df_fig6 <- 
+median_rep_ss <- median(df_combined$rep_ss)
+
+df_fig5 <- 
   res_summary %>%
   filter(sample_size_approach %in% c("a_80pct", "b_1", "c", "d"), 
          scenario == "m_error") %>%
@@ -207,5 +209,5 @@ df_fig6 <-
     ss_per_experiment = round(sum_rep_ss/n_conducted), 
     median_rep_ss = median(rep_sample_size, na.rm = T)) 
 
-df_fig6
+df_fig5
 
