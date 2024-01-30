@@ -1,7 +1,4 @@
-# setwd("~/Desktop/samplesize_for_decisionmaking")
 
-
-setwd("C:/Users/collazoa/OneDrive - Charité - Universitätsmedizin Berlin/Dokumente/GitHub/success_in_sample_size")
 
 source("./scripts/data_wrangling/load_packages.R")
 # setwd("C:/Users/collazoa/OneDrive - Charit? - Universit?tsmedizin Berlin/Dokumente/GitHub/code_replication_sample_size")
@@ -21,4 +18,4 @@ df_combined <- bind_rows(
   crp %>% select(all_of(sel))
   )
 
-#save(df_combined, file = "./data/df_combined.RData")
+save(df_combined, file = "./datasets/df_combined.RData")
