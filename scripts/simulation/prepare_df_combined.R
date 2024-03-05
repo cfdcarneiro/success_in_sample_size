@@ -1,6 +1,8 @@
-# preparing data set df_combined 
+# preparing data set df_combined for running the simulation scripts 
 
-load("./data/df_combined.RData")
+source("./scripts/data_wrangling/load_packages.R")
+#setwd("./datasets")
+load("./datasets/df_combined.RData")
 
 df_combined$zo <- df_combined$orig_z/df_combined$orig_se_z
 
@@ -44,5 +46,3 @@ vec_conducted[which(vec_not_nec == TRUE)] <- "not_necessary"
 
 df_combined$conducted <- vec_conducted
 
-decision1 <- df_combined%>%group_by(conducted)%>%summarize(n = n())%>%mutate(approach = "pSceptical")
-decision1

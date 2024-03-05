@@ -1,6 +1,7 @@
 # install.packages(c("tidyverse","effectsize", "esc", "ReplicationSuccess", "DescTools", "kableExtra")) 
 
 library(tidyverse)
+library(plyr)
 library(esc)
 library(effectsize)
 library(ReplicationSuccess)
@@ -8,12 +9,17 @@ library(DescTools)
 library(kableExtra)
 library(ggbeeswarm)
 
+
 library(furrr)
 library(future)
 library(foreach)
-library(doMC)
 library(doParallel)
-
+library(gtable)
+library(grid)
+library(gridExtra)
+library(ggpubr)
+library(ggpattern)
+library(ggtext)
 
 # library(osfr)
 # library(pwr)
