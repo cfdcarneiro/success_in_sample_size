@@ -6,9 +6,9 @@
 # available under: https://osf.io/39s7j
 
 #setwd("./success_in_sample_size")
-source("./scripts/data_wrangling/load_packages.R")
+source("~/success_in_sample_size/scripts/data_wrangling/load_packages.R")
 
-crp<-read.csv(file = "./scripts/data_wrangling/crp.csv", header = TRUE, sep = ",")
+crp<-read.csv(file = "~/success_in_sample_size/scripts/data_wrangling/crp.csv", header = TRUE, sep = ",")
 
 crp$Original.sample.size<-as.numeric(crp$Original.sample.size)
 
@@ -36,7 +36,7 @@ crp$project<-"CRP"
 # generating dataset for descriptive analysis 
 crp_d <- crp
 
-write.csv(crp_d, "./scripts/data_wrangling/crp_d.R")
+write.csv(crp_d, "~/success_in_sample_size/scripts/data_wrangling/crp_d.R")
 #############################################
 
 

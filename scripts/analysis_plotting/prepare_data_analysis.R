@@ -4,11 +4,11 @@
 #     loading datasets from simulation 
 #
 ###########################################
-source("./scripts/data_wrangling/merge_data_replication_projects.R")
+source("~/success_in_sample_size/scripts/data_wrangling/merge_data_replication_projects.R")
 
 
 #load("../data/df_combined.RData")
-setwd("./datasets")
+setwd("~/success_in_sample_size/datasets")
 
 temp = list.files(getwd(), all.files = T)
 temp <- temp[-c(1,2)]
@@ -106,7 +106,7 @@ df_s_error$sample_size_approach <- names_approaches
 
 res_summary <- rbind(df_m_error, df_null, df_s_error)
 
-save(res_summary, file = "./res_summary.RData")
+save(res_summary, file = "~/res_summary.RData")
 
 
 

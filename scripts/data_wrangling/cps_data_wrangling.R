@@ -3,8 +3,8 @@
 
 #setwd("./success_in_sample_size")
 
-source("./scripts/data_wrangling/load_packages.R")
-cps<-read.csv(file = "./scripts/data_wrangling/cps.csv", sep = ";", header = TRUE)
+source("~/success_in_sample_size/scripts/data_wrangling/load_packages.R")
+cps<-read.csv(file = "~/success_in_sample_size/scripts/data_wrangling/cps.csv", sep = ";", header = TRUE)
 
 cps <- select(cps, -c("experiment_id"))
 
@@ -17,7 +17,7 @@ cps$project<-"CPS"
 
 cps_d <- cps
 
-write.csv(cps_d, "./scripts/data_wrangling/cps_d.R")
+write.csv(cps_d, "~/success_in_sample_size/scripts/data_wrangling/cps_d.R")
 
 #############################################
 

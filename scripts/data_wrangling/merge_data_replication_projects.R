@@ -1,12 +1,12 @@
 
 
-source("./scripts/data_wrangling/load_packages.R")
+source("~/success_in_sample_size/scripts/data_wrangling/load_packages.R")
 # setwd("C:/Users/collazoa/OneDrive - Charit? - Universit?tsmedizin Berlin/Dokumente/GitHub/code_replication_sample_size")
-source("./scripts/data_wrangling/bri_data_wrangling.R")
+source("~/success_in_sample_size/scripts/data_wrangling/bri_data_wrangling.R")
 # setwd("C:/Users/collazoa/OneDrive - Charit? - Universit?tsmedizin Berlin/Dokumente/GitHub/code_replication_sample_size")
-source("./scripts/data_wrangling/crp_data_wrangling.R")
+source("~/success_in_sample_size/scripts/data_wrangling/crp_data_wrangling.R")
 # setwd("C:/Users/collazoa/OneDrive - Charit? - Universit?tsmedizin Berlin/Dokumente/GitHub/code_replication_sample_size")
-source("./scripts/data_wrangling/cps_data_wrangling.R")
+source("~/success_in_sample_size/scripts/data_wrangling/cps_data_wrangling.R")
 
 
 sel <- c("orig_ss", "rep_ss", "orig_p_2sided", "effect_size_type", "orig_d", 
@@ -18,4 +18,4 @@ df_combined <- bind_rows(
   crp %>% select(all_of(sel))
   )
 
-save(df_combined, file = "./datasets/df_combined.RData")
+save(df_combined, file = "~/success_in_sample_size/datasets/df_combined.RData")

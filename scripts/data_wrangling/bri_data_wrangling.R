@@ -4,8 +4,8 @@
 
 
 #setwd("./success_in_sample_size")
-source("./scripts/data_wrangling/load_packages.R")
-bri <- read.csv(file = "./scripts/data_wrangling/bri.csv", sep = ";", header = TRUE)
+source("~/success_in_sample_size/scripts/data_wrangling/load_packages.R")
+bri <- read.csv(file = "~/success_in_sample_size/scripts/data_wrangling/bri.csv", sep = ";", header = TRUE)
 
 #formating the number of rows 
 bri <- bri[,1:23]
@@ -102,7 +102,7 @@ bri <- bri[,sel]
 
 bri_d <- bri
 
-write.csv(bri_d, "./scripts/data_wrangling/bri_d.R")
+write.csv(bri_d, "~/success_in_sample_size/scripts/data_wrangling/bri_d.R")
 
 #############################################
 

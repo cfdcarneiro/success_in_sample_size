@@ -1,8 +1,8 @@
 # Descriptive data analysis
 
-setwd("./success_in_sample_size")
-source("./scripts/data_wrangling/merge_data_replication_projects.R")
-source("./scripts/data_wrangling/merge_data_descriptive.R")
+#setwd("./success_in_sample_size")
+source("~/success_in_sample_size/scripts/data_wrangling/merge_data_replication_projects.R")
+source("~/success_in_sample_size/scripts/data_wrangling/merge_data_descriptive.R")
 
 #######################
 #

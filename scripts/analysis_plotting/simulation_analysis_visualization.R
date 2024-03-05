@@ -7,8 +7,8 @@
 
 #setwd("./success_in_sample_size")
 
-source("./scripts/data_wrangling/load_packages.R")
-source("./scripts/analysis_plotting/prepare_data_analysis.R")
+source("~/success_in_sample_size/scripts/data_wrangling/load_packages.R")
+source("~/success_in_sample_size/scripts/analysis_plotting/prepare_data_analysis.R")
 
 
 
@@ -271,6 +271,73 @@ fig_5ab <-
   )
 
 fig_5ab
+
+## alternative fig 5b
+
+fig5b_alt_data = df_fig5b %>% mutate(ss_ratio = rep_sample_size/orig_ss)
+
+fig_5b_alt = ggplot(fig5b_alt_data, aes(x = ss_ratio, y = sample_size_approach,
+                                        group = sample_size_approach,
+                                        fill = sample_size_approach)) + 
+  geom_boxplot() +
+  labs(x = "relative sample size (replication/original)",
+       y = "") +
+  letter + 
+  theme(legend.position = "none", 
+        axis.text.x = element_text(color = "black"), 
+        axis.ticks.x = element_blank(),
+        axis.text.y = element_text(face = "bold", 
+                                    color = c(cols[7], cols[5], cols[6], cols[3])), 
+        axis.title.y = element_text(size = 18))
+
+fig_5b_alt
+
+fig_5b_alt2 = ggplot(fig5b_alt_data, aes(x = ss_ratio, y = sample_size_approach,
+                                        group = sample_size_approach,
+                                        fill = sample_size_approach)) + 
+  geom_vline(xintercept = 1, linetype = 3) + 
+  geom_jitter(alpha = 0.6, size = 3) +
+  labs(x = "relative sample size (replication/original)",
+       y = "") +
+  letter + 
+  theme(legend.position = "none", 
+        axis.text.x = element_text(color = "black"), 
+        axis.ticks.x = element_blank(),
+        axis.text.y = element_text(face = "bold", 
+                                   color = c(cols[7], cols[5], cols[6], cols[3])), 
+        axis.title.y = element_text(size = 18))
+
+fig_5b_alt2
+
+ggsave("~/success_in_sample_size/scripts/analysis_plotting/alternative-fig-5b.png", width = 60, height = 40, units = "cm")
+
+fig_5b_alt3 = ggplot(fig5b_alt_data %>% filter(ss_ratio <=3), aes(x = ss_ratio, y = sample_size_approach,
+                                         group = sample_size_approach,
+                                         fill = sample_size_approach)) + 
+  geom_vline(xintercept = 1, linetype = 3) + 
+  geom_jitter(alpha = 0.6, size = 3) +
+  labs(x = "relative sample size \n(replication/original)",
+       y = "") +
+  letter + 
+  theme(legend.position = "none", 
+        axis.text.x = element_text(color = "black"), 
+        axis.ticks.x = element_blank(),
+        axis.text.y = element_text(face = "bold", 
+                                   color = c(cols[7], cols[5], cols[6], cols[3])), 
+        axis.title.y = element_text(size = 18))
+
+fig_5b_alt3
+
+fig_5b_alt4 = fig_5b_alt2 +
+  annotation_custom(
+    ggplotGrob(fig_5b_alt3),
+    xmin = 52, xmax = 86, ymin = 0.5, ymax = 2.8
+  )
+
+fig_5b_alt4
+
+ggsave("~/success_in_sample_size/scripts/analysis_plotting/alternative-fig-5b-inset.png", width = 60, height = 40, units = "cm")
+
 
 #################################################
 #

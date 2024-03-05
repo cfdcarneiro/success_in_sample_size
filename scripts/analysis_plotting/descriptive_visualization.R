@@ -1,7 +1,8 @@
 # descriptive data visualization 
 
-setwd("./success_in_sample_size")
-source("./scripts/analysis_plotting/descriptive_analysis")
+#setwd("./success_in_sample_size")
+
+source("descriptive_analysis.R")
 
 ###############################################################################
 #                                                                             #
@@ -134,4 +135,46 @@ fig4_ab <-
                               size = 24))
 fig4_ab
 
+## figure 4b alternative
 
+fig_4b_alt <-  
+  ggplot(bri_des, aes(x = rep_ss, y = orig_d, color = orig_ss)) + 
+  geom_point(alpha = 0.6, size = 5)+
+  scale_color_gradient(low = "pink", high = "#E82AE8FF")+
+  labs(x = "total replication sample size", 
+       y = "original effect sizes", 
+       fill = "total original sample size")+
+  letter + 
+  theme(legend.position = c(0.95, 0.85),
+        legend.text = element_text(size = 16),
+        legend.title = element_text(size = 16),
+        axis.title.x = element_text(size = 20, vjust = -2), 
+        axis.title.y = element_text(size = 20, vjust = 2))
+
+fig_4b_alt
+
+fig_4b_alt2 <-  
+  ggplot(bri_des %>% filter(orig_d<=5), aes(x = rep_ss, y = orig_d, color = orig_ss)) + 
+  geom_point(alpha = 0.6, size = 5)+
+  scale_color_gradient(low = "pink", high = "#E82AE8FF")+
+  labs(x = "total replication sample size", 
+       y = "original effect sizes", 
+       fill = "total original sample size")+
+  letter + 
+  theme(legend.position = "none",
+        legend.text = element_text(size = 16),
+        legend.title = element_text(size = 16),
+        axis.title.x = element_text(size = 20, vjust = -2), 
+        axis.title.y = element_text(size = 20, vjust = 2))
+
+fig_4b_alt2
+
+fig_4b_alt3 = fig_4b_alt +
+  annotation_custom(
+    ggplotGrob(fig_4b_alt2),
+    xmin = 40, xmax = 60, ymin = 20, ymax = 40
+  )
+
+fig_4b_alt3
+
+ggsave("alternative-figure-4b.png", width = 40, height = 30, units = "cm")
